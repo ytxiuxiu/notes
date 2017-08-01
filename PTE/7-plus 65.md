@@ -5,15 +5,18 @@
 
 ## 考试调试
 
+最好去 RMIT (考场桌子很大，但是麦克风可能停不下来，主动点next) 或 Pearson 考 (有隔间，得第一个去)
+
 1. 麦克风
     * 放鼻子上边
     * 调试 - It's important to do that
+    * 灵敏度低一些
 
 ## 资料用法
 ### 题
 1. 真题 (优先练)
 2. test plus
-3. test builder 假题
+3. test builder 假题，和考试软件很像
 4. official guide
 5. www.enflares.com 题很偏，难，锻炼应急能力，只看speaking
 
@@ -55,8 +58,75 @@ Vocabulary (x)
 
 
 ## Read aloud (6 questions ±1)
+* 40 秒准备，40秒答题
+* 语速快慢都行，语速快适合发音不好的，语速慢适合发音好的，放慢容易露出马脚
+* 但是如果一说快就卡，就慢点说
+* **发音很重要**，做作的**语调**好
+
+### 疑难
+1. 难词
+    * 一定有不会读的词，可以按照自己认为的读，要读的比正确的发音听起来还要自信，千万不要卡
+    * 准备的时候要把拼读固定下来
+    * 实在不行也不要跳过，就读一部分
+2. 长词
+    * 不要把一个长词试图在一个短词的时间里读完 (不要吞音)，断开读 `character-ristics`, `sta-tis-tics`, `en-cyclo-pedia`
+3. 长句
+    * 断句，要不然气不够
+    * 断句之前的最后一个词，拖长了读
+    * 在哪断句都行，气不够就短
+
+### 发音技巧
+* 发音正确
+  * Siri 检验
+  * 单词读全，单词读对，单复数，ed **一定要读清楚** - 一定要注意这些细节，非常重要
+* 发音地道
+  1. 连读
+
+     That is an outdated dictionary, which is known by its characteristic color.
+     
+     * that is -> tha tis
+     * which is -> whi chis
+  2. 失爆
+  
+     所有的词都重度前半部分就可以强行『施暴』了
+     * outdate(d) dictionary
+     * characteristi(c) color
+  3. 抑扬顿挫 (重读，轻读)
+      1. 关键词重读，慢点读
+      2. 转折词重度，慢点读
+      3. 语法词轻读，快点读
+
+### 准备时间
+1. 就按照正式答题朗读
+    * 优势
+      * 减少卡顿 - 默读不会卡，但是真的读会卡
+      * 发现问题 - 容易气不够 (长句难句)
+    * 劣势
+      * 时间紧张，没太多时间回看问题
+
 ## Repeat sentence (10)
-没有提示音
+* 没有提示音
+* 不要它一停就开始说，**停两秒答**，不要看屏幕，闭眼睛答题，100% 专注
+* 15' = 5 fluency + 5 pronunciation + 5 keywords = 10 **FLUENCY** + 3
+  
+  不要为了说全内容而卡
+
+  因为内容
+  * 0% - 0'
+  * 50% ~ 99% - 1'
+  * 100% - 3'
+
+  所以 50% 内容足够，记东西代价太大
+
+### 技巧
+1. 千万别管听不懂的部分
+    * 可以只听前半句，在脑子里整理已经听到的 50% 的部分
+    * 语法不管，就管关键词，流利
+2. 把所有的零散的部分直接连起来，加入语调连起来
+    * 比一句完整的话听起来还完整
+
+### 核心
+把所有听到的都连起来，只准备自己记得的东西，不要脸的瞎说
 
 ## Describe image (6)
 15' = 5 fluency + 5 pronunciation + 5 keywords = 10 **FLUENCY** + 5
@@ -388,6 +458,7 @@ People, consuming larger quantities of fish than before, need to preserve fish, 
 #### 结尾段
 
 ### 模板
+这个只能用在一个作文里，还要再准备一个
 1. The debate over ... has trundled along for years / Voices are no longer consistent when it comes to ...
 2. While some posit that ..., others suggest .... In my opinion (这个很重要), ...
 3. To begin with, 观点1. 逻辑1+2. <u>For instance, ... / A is good case in point, where ... / A is an appropriate case in point, where ...</u> (尽量不用for example)
@@ -594,8 +665,28 @@ Before final assignment deadline, you need to do proof-reading on grammar, spell
 * 一般不是特别难的词，本意不是考词汇
 
 ## Write from dictation (3)
-分值非常大，留至少3-4分钟
+* 分值非常大 (1个词1分)，留至少3-4分钟
+* 每个都要全对
 
-
+### 技巧 - 记首字母 (神奇)
+1. 写下首字母 - 灵活，直觉优先 像 it is 就直接记
+2. 关键词用大写，语法词用小写，用间隔区分词组
+    * You are required to complete the research paper by next Monday.
+        
+        `u r r to C the RP by NM`
+    * Your thesis should have fairly limited scope.
+         
+         `ur T sh a fly LS`
+3. 单复数，ed 绝对要在记的时候就写出来
+    * The coffee house has special student discount through out the week.
+    
+        `t CH h-s s SDs to t W`
+ 
+### 答题步骤
+以记忆优先，脑子中重复，然后再写首字母
+1. 第一遍首字母写出来
+2. **绝不**立即扩展答案 (容易被不会的词打断记忆)，对着首字母将记忆对号入座，在心里默念 - 提升艾宾浩斯记忆曲线
+3. 再次对号入座，把难记的词扩展 (缩写就行，不完全扩展)
+4. 最后再写全
 
 
