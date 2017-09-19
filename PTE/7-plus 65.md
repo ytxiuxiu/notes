@@ -161,6 +161,7 @@ Vocabulary (x)
 用法
 * 一条线的话，拆成两半说
 * 三条线，把三个主语带出来
+* 太多了就在第一句读 keywords，然后挑两个说
 
 准备
 * topic, year (4s)
@@ -187,7 +188,59 @@ Vocabulary (x)
 * 时间: line chart 趋势
 * 种类: pie chart 比例
 
+#### Flow chart
+讲差不多就行，核心是用活小学生语法
 
+* According to the graph, we can see that
+* stage 能一词概括 (图片的标题)
+  * The first/next/following stage is ...
+  * [In this stage,] ... (用小学生语法)
+
+* stage 不能一词概括
+  * In the first/next/following stage, ...
+  * Next / Following that, ...
+* Then the whole cycle starts again
+
+#### Map
+不用管正不正确
+
+* The following map shows the information about ...
+* According to the map, we can see that ...
+* In the north of the map, there is ...
+* Next / Following that ...
+
+熟悉方位名词，背下来
+````
+North West         North           North East
+
+West                                     East
+
+South Wast         South           South East
+````
+or top-left, bottom-right ... 
+
+or front, middle, back
+
+图片信息
+* 大小
+* 形状
+* 颜色
+* 材质
+
+#### Table
+* Table 题是所有之前题型的结合，需要花时间看它应该套哪个模板
+* 不要讲重复的信息
+
+eg.
+* timetable -> flow chart
+
+#### 总结
+* 如果遇到不会的题，看不懂的图，什么模板都能用
+* 用错了也没关系，就硬说
+* 前5秒就选一个模板
+* 后20秒选对象
+  * Map, Flow chart - 4 句
+  * Line - 2 句
 
 ## Retell lecture (3)
 无需使用转述语气，可以直接总结

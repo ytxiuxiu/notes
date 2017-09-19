@@ -183,6 +183,57 @@ print(hotPotato(["Bill","David","Susan","Jane","Kent","Brad"],7))
 * `pop()` removes and returns the last item in the list. It needs nothing and returns an item. Assume the list has at least one item.
 * `pop(pos)` removes and returns the item at position pos. It needs the position and returns the item. Assume the item is in the list.
 
+**[Recursion]**
+
+eg. get length recursively
+
+* base case - is empty
+* reduce the problem - suppose we already have a solution for the rest
+* extend to the full problem
+```
+len(l)
+  if isEmpty(l)
+    return 0
+  else
+    return 1 + len(tail(l))
+```
+
+eg. find
+```
+find(x, l)
+  if isEmpty(l)
+    return false
+  else
+    if head(l) = x
+      return true
+    else
+      return find(x, tail(l))
+```
+
+eg. total
+```
+total(l)
+  if isEmpty(l)
+    return 0
+  else
+    return head(l) + total(tail(l))
+```
+
+eg. max
+[3, 1, 2]
+```
+max(l)
+  if len(1)
+    return head(l)
+  else
+    maxTail = max(tail(l))
+    head = head(l)
+    if head >= maxTail
+      return head
+    else
+      return maxTail
+```
+
 ##### Linked Lists
 In order to implement an unordered list, we will construct what is commonly known as a **linked list**. Recall that we need to be sure that we can **maintain the relative positioning of the items**. However, there is **no requirement** that we maintain that positioning in **contiguous memory**. For example, consider the collection of items. It appears that these values have been placed randomly. If we can maintain some explicit information in each item, namely the location of the next item, then the relative position of each item can be expressed by simply following the link from one item to the next.
 
@@ -314,4 +365,390 @@ Removing the First Node from the List
 
 ###### > append
 Remember that each of these must take into account whether the change is taking place at the head of the list or someplace else
+
+# Recursion
+Recursion is a method of solving problems that involves **breaking a problem down into smaller and smaller subproblems until you get to a small enough problem that it can be solved trivially**. Usually recursion involves a function calling itself. While it may not seem like much on the surface, recursion allows us to write elegant solutions to problems that may otherwise be very difficult to program.
+
+
+
+
+# Algorithm Analysis
+Whether one function is better than another
+
+Consider computing resources
+* The amount of space / memory required
+* The amount of time required
+
+We would like to have a characterization that is independent of the program or computer being used
+
+## Big-O Notation
+### Execution Time
+Characterize an algorithm’s efficiency in terms of **execution time**, independent of any particular program or computer
+
+If each of all **steps** is considered to be a **basic unit** of computation, then the **execution time** for an algorithm can be expressed as **the number of steps** required to solve the problem. 
+
+`T(n)` is the time it takes to solve a problem of size `n`
+
+Our goal then is to show how the algorithm’s execution time changes with respect to the size of the problem.
+
+*eg.* $T(n)=1+n$
+
+The order of magnitude function describes the part of `T(n)` that increases the fastest as the value of `n` increases
+
+### Big-O
+> Big-O notation (for “order”) and written as $O(f(n))$
+
+It provides a useful approximation to the actual number of steps in the computation. The function `f(n)` provides a simple representation of the dominant part of the original `T(n)`.
+
+*eg.* In the above example, $T(n)=1+n$. As n gets large, the constant `1` will become less and less significant to the final result. If we are looking for an approximation for `T(n)`, then we can drop the `1` and simply say that the running time is `O(n)`
+
+*eg.* $T(n)=5n2+27n+1005$ -> `O(n2)`
+
+#### Example
+```python
+a=5
+b=6
+c=10    // T(n) = 3
+for i in range(n):
+   for j in range(n):
+      x = i * i
+      y = j * j
+      z = i * j    // T(n) += 3n^2
+for k in range(n):
+   w = a*k + 45
+   v = b*b    // T(n) += 2n
+d = 33    // T(n) += 1
+```
+$$T(n)=3+3n^2+2n+1$$
+$$O(n^2)$$
+
+### Best, worst and average case
+Sometimes the performance of an algorithm depends on the exact values of the data rather than simply the size of the problem
+
+We need to characterize their performance in terms of best case, worst case, or average case performance.
+
+* best case - not that interesting
+* worst case - most important
+* maverage case - interesting, but often hard to do
+
+### Common Big-O
+| f(n)     |               Name        |
+| -------- | ------------------------- |
+| $1$      |               Constant    |
+| $logn$   |               Logarithmic |	
+| $n$      |               Linear      |	
+| $nlog⁡n$ |               Log Linear  |	
+| $n^2$    |               Quadratic   |	
+| $n^3$    |               Cubic       |
+| $2^n$    |               Exponential |
+
+![](images/algorithms-2.png)
+
+## Performance of Python Data Structures
+### List
+* most common operations were very fast
+  * indexing - `O(1)`
+  * assigning - `O(1)`
+* performance of a less common operation was often sacrificed
+  * append - `O(1)`
+  * concat - `O(k)` (k is the size of the list that is being concatenated)
+
+
+# Searching
+
+Finding a particular item in a collection of items
+
+## The Sequential Search
+If each data item is stored in a position relative to others, we say that they have a linear or sequential relationship. Since these index values are ordered, it is possible for us to visit them in sequence. 
+
+Starting at the first item in the list, we simply move from item to item, following the underlying sequential ordering until we either find what we are looking for or run out of items. 
+
+![](algorithms.png)
+
+```python
+
+def sequentialSearch(alist, item):
+    pos = 0
+    found = False
+
+    while pos < len(alist) and not found:
+        if alist[pos] == item:
+            found = True
+        else:
+            pos = pos+1
+
+    return found
+```
+
+### Analysis of Sequential Search
+
+#### 1. Not Ordered
+
+We assume that the probability that the item we are looking for is in any particular position is exactly the same for each position of the list
+
+Comparisons Used in a Sequential Search of an Unordered List
+|Case|	Best Case|	Worst Case|	Average Case|
+|----|	---------|	----------|	------------|
+|item is present	|1	|n	|$n^2$|
+|item is not present	|n|	n|	n|
+
+If the item is not in the list, the only way to know it is to compare it against every item present. 
+
+#### 2. Ordered
+
+We assume that the list is ascending ordered 
+
+if the item is not present there is a slight advantage
+
+```python
+def orderedSequentialSearch(alist, item):
+    pos = 0
+    found = False
+    stop = False
+    while pos < len(alist) and not found and not stop:
+        if alist[pos] == item:
+            found = True
+        else:
+            if alist[pos] > item:
+                stop = True
+            else:
+                pos = pos+1
+
+    return found
+```
+
+Comparisons Used in Sequential Search of an Ordered List
+|Case|	Best Case|	Worst Case|	Average Case|
+|----|	---------|	----------|	------------|
+|item is present	|1	|n	|$n^2$|
+|item is not present	|1	|n	|$n^2$|
+
+
+## The Binary Search
+
+Take greater advantage of the ordered list
+
+A binary search will start by examining the **middle item**. 
+
+If that item is the one we are searching for, we are done. 
+
+If it is not the correct item, we can use the ordered nature of the list to **eliminate half** of the remaining items. 
+
+If the item we are searching for is greater than the middle item, we know that the entire lower half of the list as well as the middle item can be eliminated from further consideration. The item, if it is in the list, must be in the upper half.
+
+![](algorithms-1.png)
+
+```python
+def binarySearch(alist, item):
+    first = 0
+    last = len(alist)-1
+    found = False
+	
+    while first<=last and not found:
+        midpoint = (first + last)//2
+            if alist[midpoint] == item:
+                found = True
+        else:
+            if item < alist[midpoint]:
+                last = midpoint-1
+            else:
+                first = midpoint+1
+
+    return found
+```
+divide and conquer strategy - recursive version
+```python
+def binarySearch(alist, item):
+    if len(alist) == 0:
+        return False
+    else:
+        midpoint = len(alist)//2
+        if alist[midpoint]==item:
+            return True
+        else:
+            if item<alist[midpoint]:
+                return binarySearch(alist[:midpoint],item)
+            else:
+                return binarySearch(alist[midpoint+1:],item)
+```
+
+### Analysis of Binary Search
+
+Each comparison eliminates about half of the remaining items from consideration
+
+|Comparisons	|Approximate Number of Items Left|
+|-----------	|--------------------------------|
+|1           	|          n/2                      |
+| 2           	|         n/4                          |
+| 3            	|                  n/8                    |
+| ...           	|                  ...                    |
+|  i            	|            $n/2^i = 1$                             |
+When we split the list enough times, we end up with a list that has just one item
+$$n/2^i = 1$$
+$$i=logn$$
+
+Therefore, the binary search is `O(logn)`.
+
+**Note**: Even though a binary search is generally better than a sequential search, it is important to note that for small values of n, the additional cost of sorting is probably not worth it
+
+If we can sort once and then search many times, the cost of the sort is not so significant. However, for large lists, sorting even once can be so expensive that simply performing a sequential search from the start may be the best choice.
+
+# Sorting
+## The Bubble Sort
+It compares **adjacent** items and **exchanges** those that are **out of order**. Each item “bubbles” up to the location where it belongs
+
+It makes multiple passes through a list. Each pass through the list places the next largest value in its proper place
+
+![](algorithms-2.png)
+
+At the start of the second pass, the largest value is now in place. There are n−1 items left to sort, meaning that there will be n−2 pairs. 
+
+
+
+Swap
+```
+temp = alist[i]
+alist[i] = alist[j]
+alist[j] = temp
+```
+Swap in Python
+```python
+a,b = b,a
+```
+
+### Analysis of Bubble Sort
+
+Since each pass places the next largest value in place, the total number of passes necessary will be n−1. After completing the **n−1 passes**, the smallest item must be in the correct position with no further processing required
+
+|Pass	|Comparisons|
+|----	|-----------|
+|1    	|     n-1      |
+|2   	|     n-2      |
+|   3  	|      n-3        |
+|   ...  	|      ...        |
+|    n-1  	|         1        |
+
+Sum them up: (n-1 + 1) * (n - 1) / 2 = $n^2/2 - n/2$
+$$O(n^2)$$
+
+**Note**: The **most inefficient** sorting method. However, because the bubble sort makes **passes through the entire unsorted portion** of the list, it has the capability to **do something** most sorting algorithms cannot. In particular, if during a pass there are **no exchanges**, then we know that the list must be **sorted**
+
+### Bubble Short
+A bubble sort can be modified to stop early if it finds that the list has become sorted
+
+```python
+def shortBubbleSort(alist):
+    exchanges = True
+    passnum = len(alist)-1
+    while passnum > 0 and exchanges:
+       exchanges = False
+       for i in range(passnum):
+           if alist[i]>alist[i+1]:
+               exchanges = True
+               temp = alist[i]
+               alist[i] = alist[i+1]
+               alist[i+1] = temp
+       passnum = passnum-1
+```
+
+## The Selection Sort
+
+Making only one exchange for every pass through the list
+
+On each pass, the largest remaining item is selected and then placed in its proper location
+1. Looks for the largest value as it makes a pass, after completing the pass, places it in the proper location
+2. After the second pass, the next largest is in place
+
+requires n−1 passes
+
+![](algorithms-3.png)
+
+```python
+def selectionSort(alist):
+   for fillslot in range(len(alist)-1,0,-1):
+       positionOfMax=0
+       for location in range(1,fillslot+1):
+           if alist[location]>alist[positionOfMax]:
+               positionOfMax = location
+
+         temp = alist[fillslot]
+       alist[fillslot] = alist[positionOfMax]
+       alist[positionOfMax] = temp
+```
+
+## The Insertion Sort
+
+The insertion sort, although still $O(n^2)$, works in a slightly different way. 
+It always maintains a sorted sublist in the **lower positions** of the list
+
+Each new item is then “inserted” back into the previous sublist such that the sorted sublist is one item larger. 
+
+![](algorithms-4.png)
+
+
+The following graph shows the fifth pass in detail. At this point in the algorithm, a sorted sublist of five items consisting of 17, 26, 54, 77, and 93 exists. We want to insert 31 back into the already sorted items. 
+
+![](algorithms-5.png)
+
+In general, a **shift** operation requires approximately **a third** of the processing work of an **exchange** since only one assignment is performed. In benchmark studies, insertion sort will show very good performance.
+
+## The Merge Sort
+divide and conquer strategy - recursive algorithm 
+
+Continually splits a list in half
+
+Merging is the process of taking two smaller sorted lists and combining them together into a single, sorted, new list
+
+![](algorithms-6.png)
+Splitting the List in a Merge Sort
+
+![](algorithms-7.png)
+Lists as They Are Merged Together
+
+**Base case**: If the length of the list is less than or equal to one, then we already have a sorted list and no more processing is necessary
+
+```python
+def mergeSort(alist):
+    print("Splitting ",alist)
+    if len(alist)>1:
+        mid = len(alist)//2
+        lefthalf = alist[:mid]
+        righthalf = alist[mid:]
+
+        mergeSort(lefthalf)
+        mergeSort(righthalf)
+
+        i=0
+        j=0
+        k=0
+        while i < len(lefthalf) and j < len(righthalf):
+            if lefthalf[i] < righthalf[j]:
+                alist[k]=lefthalf[i]
+                i=i+1
+            else:
+                alist[k]=righthalf[j]
+                j=j+1
+            k=k+1
+
+        while i < len(lefthalf):
+            alist[k]=lefthalf[i]
+            i=i+1
+            k=k+1
+
+        while j < len(righthalf):
+            alist[k]=righthalf[j]
+            j=j+1
+            k=k+1
+    print("Merging ",alist)
+```
+
+## The Quick Sort
+
+divide and conquer
+
+**not using additional storage**
+
+1. A quick sort first selects a value, which is called the **pivot value** to assist with splitting the list. Although there are many different ways to choose the pivot value, we will simply use the first item in the list. 
+2. 
+
 
