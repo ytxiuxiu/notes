@@ -69,11 +69,11 @@ An integrated system controlling both robotic arms and a 3d printing system
 ### System Architecture
 
 #### Hardware
-* filament holder
+##### filament holder
 
 It also must not block the way that robotic arms move. We mount the filament outside of the workspace of these two robotic arm at first. But later we found that because the link between extruder and the nozzle is not hard, the filament wheel always drag the extruder out of the center
 
-[dragged out of the center]
+![](final thesis structure-4.png)
 
 Reduce the angle of the filament feed into the extruder can reduce the force in horizontal to the extruder, so that it can not be dragged too much.
 
@@ -83,7 +83,7 @@ The filament holder should hold the filament on top of the print head, so that t
 
 
 
-* platform
+##### platform
 
   Material for print bed should satisfy two contradictory requirements that are (1) the print bed must stick to the filament in order to hold the print firmly; otherwise, layers will not be aligned. (2) the print bed must not stick to the filament too strongly so that the finished print can be removed from the print bed (http://reprap.org/wiki/Bed_material). In addition, the choice of print bed is also related to print material. 
   
@@ -115,11 +115,20 @@ The filament holder should hold the filament on top of the print head, so that t
   
   right 
 
-* 3d printing control box
+##### 3d printing control circuit
+
+RAMBo - (R)epRap (A)rduino-(M)ega-compatible (M)other (Bo)ard.
+
+1/16th microstep motor drivers
+USB
+Reflashable using the Arduino IDE and setting board to "Arduino Mega 2560"
+(https://ultimachine.com/products/rambo-1-3)
+
+
 
   [circuit diagram goes here]
 
-* extruder and holder
+##### extruder and holder
 
   A step motor is used to send the material to the nozzle
   
@@ -128,16 +137,17 @@ The filament holder should hold the filament on top of the print head, so that t
   A bearing is installed with a spring so that they can hold the filament
   
   [design file of the extruder holder]
+![](final thesis structure-8.png)
 
-* fan holder - as small as possible
+##### fan holder - as small as possible
 
   In the cooling system section, we found that 
   
   For slinky and freeform printing the cooling system is not enough, because it needs printed material be solidified before it can print the next part, otherwise, the wire can be sag. The efficiency of the cooling system affects the printing speed. It takes 3 hours to print a slinky with n circles, and takes 12 hours to print the candle holder. If the cooling system can be much efficient, the print speed can be faster. Another issue with the freeform printing is that when the print speed is low, the extruder must also reduce the speed to feed less material in a time unit, otherwise, it will be over extrude. The problem with this is that the step motor is n degree per step, when the 
   
+  [fan holder picture]
   
-  
-  microstepping
+ ##### microstepping
   
   Essentially, the goal of this process is to create a motor that runs as smoothly as possible. Due to the nature of step motors, their rotation is not entirely smooth, as the motor is moving “step by step” Of course, these steps are designed to be moved through rather quickly, so there is usually no particularly detrimental effect on performance, but for those who require smoother resolution, the full step stepper motor may not be quite what is needed. (http://www.nmbtc.com/step-motors/engineering/full-half-and-microstepping/)
   
@@ -157,23 +167,38 @@ This is because, in such a case, the two waves work together to keep the motor i
 
 A microstepper controller subdivides the motor step angle into multiple divisions to improve control over the motor. This allows for more refined motor work that requires greater motor resolution. (http://www.nmbtc.com/step-motors/engineering/full-half-and-microstepping/)
 
-EasyDriver (http://www.schmalzhaus.com/EasyDriver/Examples/EasyDriverExamples.html)
+A4982 DMOS Microstepping Driver
+(www.allegromicro.com/~/media/Files/Datasheets/A4982-Datasheet.ashx)
+
+![](final thesis structure.png)
+
+By writing HIGH level to both MS1 and MS2 pin, it can set the stepper motor to microstepping mode with 1/16 step resolution. This significant improve the quality of the print
+
+Enabling microstepping does not the fully solve the problem, the temperature is also a important to the printing quality. When printing with a very slow speed (how slow), the filament come through the heat block has all been fully heated. If the temperature is high, it can boil the material and produce some bubble which cause the print not smooth.
+
+195℃
+
+Reducing the temperature also help increase the cooling speed, so the material can solidify quickly which also reduced the sagging problem
+
+[picture to compare high temp and low temp]
+
+[picture to compare microstepping and non-microsteping]
 
 #### Software
 
-* urscript
+##### urscript
 
   Because of the limitation (does not support type casting, complex calculation) of urscript, a controller program is required to be run on a separate computer.
 
   * command executor
   * status monitor
-* controller
+##### controller
   
   C++ because hardware libraries use these languages (https://blog.robotiq.com/what-is-the-best-programming-language-for-robotics) for real time performance, robotics is very dependent on real time performance
   
   Qt is chosen because it is a C++ based firmware which enables cross-platform
 
-
+###### Software architecture
 
   * simulation
     * opengl
@@ -199,7 +224,7 @@ EasyDriver (http://www.schmalzhaus.com/EasyDriver/Examples/EasyDriverExamples.ht
 
   * driver
 
-* 3d printing firmware
+##### 3d printing firmware
 
   G code used in robotic 3d printing
   G1
@@ -372,14 +397,44 @@ The wind must distributed evenly to the printed material; otherwise, it will blo
 [fan install picture]
 
 # Evaluation
-convert to mesh
 
-Because we use different approach to describe the printing process (instead of gcode). In order to print the same model in a conventional 3d printer, the description file need to be converted into gcode. Slicing software can help us to generate a gcode for different 3d printer. So converting js printing process description file to 3d model file (.obj) is enough.
+To show this novel 3D printing system is superior to conventional 3D printing system in terms of saving support material and printing time, three representative models are printed using both two systems. In the following section, the amount of material and time required in both two approaches are listed and compared.
 
-In robotic 3d printing with thick nozzle, the model has been print only one extrusion thickness. The slicing software can only process model that are closed with thickness.
+The first model we have compared is the bended pipe mentioned before. Because instead of using a 3D modeling software to design the print, carrier-profile functions are used for defining the model, in order to print the same model in a conventional 3D printer, the description file need to be converted into a mesh so that slicing software can generate a gcode file for a 3D printer from it.
 
-Our describing file describe the path that the print head moves, in order to convert to mesh 
+![](final thesis structure-1.png)
+
+The path of print head movement can be virtualised as shown in the picture above. The path consists of a series of intermediate points, for each layer, the number of these points are the same. A program has been written to convert this path to a mesh. It goes through all layers, between each two layer, two adjacent points in one layer, and the two corresponding two points in another layer can produce a triangle. By linking these triangles together, a mesh can be produced.
+
+In order to make the mesh printable, we also need to do meet 3D printing guidelines (https://www.shapeways.com/tutorials/how-to-prepare-your-render-animation-model-for-3d-printing). First, the model need to be a single solid seamless volume by having closed edges (https://www.lifewire.com/how-to-prepare-your-model-for-3d-printing-2109). The current mesh we generated is an open mesh where two ends of the pipe are open. A inner wall is needed. Second, any normal that faces inward is treated as a hole by the slicing software. However, the model we generated does not have any normal, so it can be ignored. Third, internal geometries should also been avoided. Fourth, walls which are too thin are also not printable. The minimum wall thickness can be calculated by doubling the line width (or the nozzle diameter) because the printer prints two shells for a wall: one for inside and one for outside (https://ultimaker.com/en/resources/22015-designing-for-printability). In this case, the printed we used for this experiment has a nozzle ..., so the minimum wall thickness is ...
+
 [picture of converting path to mesh, triangle]
+
+Cura supports STL, 3MF and OBJ file formats (https://ultimaker.com/en/products/ultimaker-cura)
+The OBJ file format is a text file format (https://www.cs.cmu.edu/~mbz/personal/graphics/obj.html), which is easy to be edited.
+
+v x y z
+
+The vertex command, this specifies a vertex by its three coordinates. The vertex is implicitly named by the order it is found in the file. For example, the first vertex in the file is referenced as '1', the second as '2' and so on. None of the vertex commands actually specify any geometry, they are just points in space.
+
+f v1[/vt1][/vn1] v2[/vt2][/vn2] v3[/vt3][/vn3] ...
+
+The face command specifies a polygon made from the verticies listed. You may have as many verticies as you like.
+
+MakePrintable is a web app that helps debug 3D printing models (https://makeprintable.com), which can identify issues within an unprintable 3D model.
+
+![](final thesis structure-3.png)
+ 
+The second model we compared is the slinky. The model we used for slinky is designed by Desktop Makes (https://cults3d.com/fr/mod%C3%A8le-3d/jeu/slinky).
+
+The third model printed is the wireframe cube. This model can be easily modeled using Maya (https://www.autodesk.com.au/products/maya/overview). Twelve edges are merged into a single mesh so that it can be printed on a 3D printer.
+
+
+![](final thesis structure-5.png)
+
+![](final thesis structure-6.png)
+
+![](final thesis structure-7.png)
 
 compare
 * possibility - to conventional
@@ -427,6 +482,7 @@ For the temperature control, because thick nozzle is used, the extrusion will re
 
 Because of the cooling system is not efficient enough, so when doing freeform printing, the speed is very low, Also the fans occupied some space, so the two wires can not be print too close to each other (min ?mm). In the future research, much effective and compact cooling system can be experimented.
 
+For slinky printing, it is worth to experiment with flat nozzle instead of round nozzle, because 
 
 # Conclusion
 
