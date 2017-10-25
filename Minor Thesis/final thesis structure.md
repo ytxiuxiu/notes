@@ -39,17 +39,27 @@ using robotic arms to eliminate support structure in 3d printing
 methodology - practical, need to build and test the system
 ```
 
-## Problem
+## Problems
 
-printing overhangs requires support material, which slow down the printing and also waste the material
+problems with layer-based 3D printing - [[[Current unidirectional extrusion systems require printing sacrificial material to support printed features such as overhangs. In order to create complex geometries such as overhangs and undercuts, current additive manufacturing systems need to provide means to support the printed features of subsequent layers. In the material extrusion process, this is typically done by printing fine scaffold structures from the build material. Such sacrificial support structures require ad- ditional material and consume a large portion of the print- ing time. Post-processing operations thereby are necessitated for separating the printed objects with built-in support. (RevoMaker)]]]
 
-in this research, three different approaches are investigated to eliminate support material
+problems with freeform 3D printing - low quality or high cost
 
-freeform printing - 
-generalised cylinder - 
-wireframe - long and thin overhangs without sag
+problems with wireframe 3D printing - wires printed horizontally are saggy due to the gravity (Figure 2) and have limited ability to print complex structures due to the limitation of their algorithms and the low degree of freedom (DOF) of printers or the difficulties to avoid collisions of robotic arms.
 
-problem with conventional 3d printer - low dof, 
+In this research, we present three different approaches for different types of 3D printing are investigated to eliminate support material
+
+1. a hybrid of freeform and layer-based 3D printing
+2. generalised cylinder printing - 
+3. wireframe - prints long and thin wires without sag
+
+Our design goals are:
+* Build a FDM 3D printing system using off-the-shelf robotic arms and repurposed FDM 3D printing system
+* Find appropriate printing parameters in order to 3D print consistently using such system
+* Improve the quality with PLA freeform 3D printing
+* Reduce the use of build material of layer-based 3D printing
+* Improve the quality of wireframe 3D printing
+* Reduce the need of post-processing
 
 ## Methodology
 
@@ -58,6 +68,7 @@ The research method selected for this project is Design Science Research methodo
 ![](final thesis structure-13.png)
 
 Figure 13 shows the process of this method. In the case of this project, (1) an approach will be developed by reviewing the previous wireframe printing research projects, so that problems and gaps can be found; (2) suggesting creative ideas based on the existing knowledge, resources and projects in the field of AM; (3) development and implementing which also involves some experiments, such as experiments with extruders and cooling units, at the early stage to ensure the idea can be implemented effectively; (4) then evaluating the printing results to find out unsolved or new problems and go into the next iteration; (5) finally, conclusion, the feasible approach, can be made after a number of iterations.
+
 
 
 # Related Works
@@ -111,6 +122,9 @@ Acrylonitrile-Butadiene Styrene (ABS) and Polylactic Acid (PLA) are two of the m
 
 Some projects have been conducted to improve the strength of the materials themselves. By using materials with high strength, printed shapes can stand more rigid without too much deformation. Novikov, Jokić, and Joris Laarman Studio (2013) have conducted a research named Mataerial. In their research, they have developed a novel resin extrusion technology which can eliminate the effect of gravity on printed curves. It makes it possible to direct print artwork of almost any size and shape directly on irregular or non-horizontal surfaces (Figure 7). 
 
+### Build platform?
+Should I put it here or the place where I explains our build platform
+
 ### Structure
 Other research teams designed special structures to make the printed parts more rigid, especially objects of large volume. For example, the structure used in the project Mesh-Mould (Hack & Lauer, 2014) allows meters-high frameworks to be printed solidly which can be used for constructing formwork in architecture. 
 
@@ -147,226 +161,241 @@ Robot-assisted 3D printing of biopolymer thin shells (B. J. Brooks et al., 2017)
 
 Tolar and Herrmann (2016) developed a prototype of a novel 3D printer which has a three DOF print head and also a three-axis rotatable print bed, in total 6 DOF to allow objects with large overhangs to be printed without any support material because the system can rotate the platform to ensure any extruded material is printed on the top of already printed parts (Figure 10).
 
-## Support-free 3D printing
+## Support-free layer-based 3D printing
+RevoMaker: Enabling Multi-directional and Functionally-embedded 3D Printing using a Rotational Cuboidal Platform
 
+[[[a self-contained 3D printer that creates direct out-of-the-printer functional prototypes, using less build material and with substantially less reliance on support structures. By modifying a standard low-cost FDM printer with a revolving cuboidal platform and printing parti- tioned geometries around cuboidal facets, we achieve a mul- tidirectional additive prototyping process to reduce the print and support material use.]]]
+![](final thesis structure-34.png)
 
-# Methods
-system overview, block diagram, 
+[[[we have explored a multi-directional 3D print- ing process to not only reduce the consumption of print and support material, but also to enable a new breed of cus- tom products with embedded functionalities. We propose the Cuboidization algorithm to generate a cuboidal enclosure, that is also the printing base. It has as large a volume in- side the model and with as few overhangs as possible. Using Revomaker, we printed a number of sculptural models and two functional products, i.e., a customizable computer mouse]]]
 
-## Controlling System
+![](final thesis structure-35.png)
+
+[[[For those 3D shapes with high genus, long protruding and massive curvy features, our ap- proach still requires support generation after partitioning]]]
+
+A new algorithm is developed to decompose models into support-free parts that can be printed one by one in a collision-free sequence. The printing directions of all parts are also determined during the computation of model decomposition.
+
+![](final thesis structure-36.png)
+
+![](final thesis structure-37.png)
+
+# System
+system overview,
+
+UR3 robot
+
+[block diagram]
+
 An integrated system controlling both robotic arms and a 3d printing system
 
-### System Architecture
+## Hardware
 
-#### Hardware
-
-##### platform
-
-Material for print bed should satisfy two contradictory requirements that are (1) the print bed must stick to the filament in order to hold the print firmly; otherwise, layers will not be aligned or even collapse. (2) the print bed must not stick to the filament too strongly so that the finished print can be removed from the print bed (http://reprap.org/wiki/Bed_material). In addition, the choice of print bed is also related to print material. As PLA has been chosen, 
-
-Printing on glass requires moderate heating (60 C / 70 C) (https://www.matterhackers.com/news/choosing-the-right-3d-print-bed-surface, https://www.matterhackers.com/articles/how-to-succeed-when-printing-in-pla)
-
-Because PLA does not require a heated print bed, and PLA stick well to acrylic (http://www.plasticscribbler.com/tutorial/how-to/item/95-top-five-reasons-your-prints-dont-stick-to-the-bed#.WerP9BOCwuQ). 
-
+### Build Platform
+#### Material
+Material for print bed should satisfy two contradictory requirements that are (1) the print bed must stick to the filament in order to hold the print firmly; otherwise, layers will not be aligned or even collapse. (2) the print bed must not stick to the filament too strongly so that the finished print can be removed from the print bed (http://reprap.org/wiki/Bed_material). In addition, the choice of print bed is also related to print material. As PLA has been chosen, some common material of platform for PLA are glass, acrylic, and Blue Tape (https://www.matterhackers.com/articles/how-to-succeed-when-printing-in-pla). We found that acrylic is a good material
 
 Several reasons lead that acrylic print bed has been chosen.
+1. PLA stick well to acrylic (http://www.plasticscribbler.com/tutorial/how-to/item/95-top-five-reasons-your-prints-dont-stick-to-the-bed#.WerP9BOCwuQ) and it can be removed by hands.
+2. It is up to 10 times flexible than glass (http://www.ozziesplash.com.au/acrylic-vs-glass/), which means it reduces the risk of damage during experiments.
+3. To make it easy for adjusting the position, grids need to be marked on the print bed. Acrylic is easy to cut using a laser cutter and mark on
 
-1. Because the accuracy of the robotic arm and the levelling of the table is not good enough, the print bed must be adjustable. 
-2. To make it easy for adjusting the position, grids need to be marked on the print bed. Acrylic is easy to cut using a laser cutter and mark on
-3. Low cost
+#### Design
+Adobe Illustrator is used to design the print bed which can be used for laser cutter. Red (RGB: 255, 0, 0) represents laser cutting lines, where acrylic will be cut through, and blue (RGB: 0, 0, 255) represents vector engraving, where low laser power will be used for drawing these grids. To ensure free movement of the robotic arm, 18 * 18 bed is designed. Double-layer platform makes it possible to installed on the robotic arm. The bottom layer can be mounted on the end of one robotic arm, and the top layer is mounted on top of the bottom one.
 
-For laser cutting lines, red Red: RGB: 255,0,0
-
-For vector engraving, Blue: RGB: 0,0,255
   
 ![](final thesis structure-10.png)
   
-  But the drawback of this material...
-  
-  An acrylic print bed does not last forever. It is reusable for several times and then become disposable because acrylic is more flexible than glass. The print head applies pressure on the bed during printing. During our experiments, we found that the acrylic can be out of shape after applying pressure on it for a long time. In addition, tiny piece of material is hard to remove from acrylic print bed. Third, it is not strong enough, it can break if removing the print too hard.
+But the drawback of this material is that an acrylic print bed does not last forever. It is reusable for several times and then become disposable because acrylic is more flexible than glass. The print head applies pressure on the bed during printing. During our experiments, we found that the acrylic can be out of shape after applying pressure on it for a long time. In addition, tiny piece of material is hard to remove from acrylic print bed.
   
 ![](final thesis structure-20.png)
-  [a picture shows tiny material on the print bed, grid, broken bed]
-  
-  At the first stage, a fixed print bed is installed on the table to allow one robotic arm holding the nozzle to print on
-  
-  Then adjustable print bed is designed and installed on the second robotic arm so that the print bed can rotate. To ensure free movement of the robotic arm, 18 * 18 bed is designed
+[a picture shows tiny material on the print bed, grid, broken bed]
 
-But as print higher, the print is difficult to stick to the platform, it has a curve on the bottom.
+At the first stage, a fixed print bed is installed on the table to allow one robotic arm holding the nozzle to print on. Then adjustable print bed is designed and installed on the second robotic arm so that the print bed can be rotated. 
 
-We tested printing on Blue Painter's Tape, it is not stick to 
+But as print higher, the print is difficult to stick to the platform. By analysing videos taken through the experiments, we found that the print head and the model gives pressure to it. Because acrylic is flexible, it caved in at the center. The number one reason why parts not sticking is a uneven build plate. This problem can also lead to part warpage and/or gaps in between layers. （http://www.plasticscribbler.com/tutorial/how-to/item/95-top-five-reasons-your-prints-dont-stick-to-the-bed#.WerP9BOCwu). So, in the final design, we added supports between two piece acrylic.
 
-By analysing the video, we found that the the print gives pressure to it, makes it bend
+Another reason which makes the platform uneven is that the accuracy of robotic arms or the uneven table. Software is designed to adjust the platform, which will be explained in section ______
 
-The number one reason why you would have trouble with your parts not sticking is a uneven build plate.  This problem can also lead to part warpage and/or gaps in between layers. （http://www.plasticscribbler.com/tutorial/how-to/item/95-top-five-reasons-your-prints-dont-stick-to-the-bed#.WerP9BOCwuQ）
 
-So we added support between two piece acrylic
-
-  first layer print very close (n mm) to the platform
-  
-  right 
-
-Then software needed to level the platform
-
-similar to 3d printer, it goes through four corners of the platform, and buttons can be used to move the platform so that it is level
-
-Also the grids on the platform helps this process, because the print is in the air, the print head need to relocate the open edges so that it can continue to print. This is why the grid is needed which does not need in the conventional 3D printer.
-
-##### 3d printing control circuit
-
-RAMBo - (R)epRap (A)rduino-(M)ega-compatible (M)other (Bo)ard.
-
-It is an open source 3D printer control board, it supports 2 hotends, 1 heated bed, 3 fans, 4 thermistors, 5 1/16th microstep motor drivers and USB RS232 which is enough for this research
-Reflashable using the Arduino IDE and setting board to "Arduino Mega 2560"
-(https://ultimachine.com/products/rambo-1-3)
+### 3D Printing Control Circuit
+In order to build this robotic arm 3D printing system, one stepper motor is needed to send material into the nozzle, one heat block is needed to melt the material, a fan is attached to the heat block for radiation, a thermistor is embedded in the heat block for temperature controlling, in order to increase the speed of material solidification, two more fans are also needed. To control all of these devices, RAMBo - (R)epRap (A)rduino-(M)ega-compatible (M)other (Bo)ard is chosen, it is an open source 3D printer control board, it supports 2 hotends, 1 heated bed, 3 fans, 4 thermistors, 5 1/16th microstep motor drivers and USB RS232 which is enough for this research. It is also reflashable using the Arduino IDE because it uses Arduino Mega 2560 micro-controller (https://ultimachine.com/products/rambo-1-3)
 
 ![](final thesis structure-17.png)
 
-  [circuit diagram goes here]
-  
-  The picture above shows the circuit diagram of the 3d printing system. two fans which used for cooling connect ...
+[circuit diagram goes here]
 
-##### extruder and holder
+The picture above shows the circuit diagram of the 3d printing system. In addition to all devices mentioned in the last paragraph, a power supply (... parameters) is connected to the board to supply power. The RAMBo board support to use USB Serial to flash the firmware and remote control.
 
-  A step motor is used to send the material to the nozzle
-  
-  The extruder should hold the filament firmly so that it can accurately control the amount of material and speed to print which is important to 3d printing to ensure the quality.
-  
-  A bearing is installed with a spring so that they can hold the filament
-  
-  [design file of the extruder holder]
+### Extruder and Holder
 
-![](final thesis structure-16.png)
+The stepper motor is part of the extruder to send material to the nozzle. The extruder should hold the filament firmly so that it can accurately send the amount of material and control the speed of printing, which is important for 3d printing to ensure the quality.
 
-##### fan holder - as small as possible
+[A paragraph here to explain how parts are connected]
 
-  In the cooling system section, we found that 
-  
-  For slinky and freeform printing the cooling system is not enough, because it needs printed material be solidified before it can print the next part, otherwise, the wire can be sag. The efficiency of the cooling system affects the printing speed. It takes 3 hours to print a slinky with n circles, and takes 12 hours to print the candle holder. If the cooling system can be much efficient, the print speed can be faster. Another issue with the freeform printing is that when the print speed is low, the extruder must also reduce the speed to feed less material in a time unit, otherwise, it will be over extrude. The problem with this is that the step motor is n degree per step, when the 
-  
+![](final thesis structure-42.png)
+
+### Fan Holder
+
+The fan holder is made of Aluminum sheet, it has been cut and bended so that it can mounted on the print head and hold two fans which point to the position shows in the picture below. It can blow the material just printed by the nozzle.
+
 
 ![](final thesis structure-26.png)
 
   [fan holder picture]
   
-##### filament holder
+### Filament Holder
 
-It also must not block the way that robotic arms move. We mount the filament on the table outside of the workspace of these two robotic arm at first. But later we found that because the link between extruder and the nozzle is not a hard link (a plastic tube is used), the filament wheel always drag the extruder which makes the horizontal center of the extruder and the nozzle not in line. As the print head moves further from the filament wheel, the distance between the two are longer, because the extruder hold the filament firmly, it delay the time when the filament should come through the nozzle, eventually reduce the quality of prints.
+It must not block the way that robotic arms move. We mount the filament on the table outside of the workspace of these two robotic arm at first. But later we found that because the link between extruder and the nozzle is not a hard link (a plastic tube is used), the filament wheel always drag the extruder which makes the horizontal center of the extruder and the nozzle not in line. As the print head moves further from the filament wheel, the distance between the two are longer, because the extruder hold the filament firmly, it delay the time when the filament should come through the nozzle, eventually reduce the quality of prints.
 
 ![](final thesis structure-4.png)
 
-Reduce the angle of the filament feed into the extruder can reduce the force in horizontal to the extruder, so that it can not be dragged too much.
+Reduce the angle of the filament feed into the extruder can reduce the force in horizontal to the extruder, so that it can not be dragged away.
 
-[reduce angle]
+[filament holder picture]
 
-The filament holder should hold the filament on top of the print head, so that the filament can be feed into the extruder smoothly. 
+We designed a holder hold the filament on top of the print head, so that the filament can be feed into the extruder smoothly. 
 
-
-  
- 
-
-#### Software
+## Software
 
 ![](final thesis structure-19.png)
 
-##### urscript
+The software runs on three devices. URScript runs on the robotic arm controller. Marlin firmware runs on the RAMBo board. The central controller runs on a computer controls both two other devices.
 
-Because of the limitation (does not support type casting, complex calculation) of urscript, a controller program is required to be run on a separate computer.
+### URScript
+
+The URScript consists of four major components. The network layer is used to communicate with the controller. 
 
 * command processor
 
-  It process messages sending from the controller, eg. called UR robot's built-in functions to convert ...
+  It parse and process messages sending from the controller, eg. called UR robot's built-in functions to convert ...
   
   Also determine which type of movement it used
 
 * command executor
+
   It execute the movements by calling UR robot's built-in functions
   
   Important functions:
   
-  [table of functions]
+  [table of functions, movel, movej, movec, for different movement]
 
 * status monitor
-  It monitor the status of the robot, including position of tool, joint speeds, task speed, etc. and send this data to the controller through network
+  
+  It monitor the status of the robot, including position of tool, joint speeds, task speed, etc. and send this data to the controller through network layer
 
 
-##### controller
+### 3D Printing Firmware
 
+G code used in robotic 3d printing
+G1
+fan
+temp - thank for auto tune, the pid of temp control pid tune can be done automatically.
+
+Marlin (http://marlinfw.org/) is a open source 3d printer firmware which allows full control of the printing process. It is easy to be modified so that it can adapt the robotic 3D printing. It reads GCode sent to it and moves the motors and heat the print head...
+
+To adapt this 3D printing system to our robotic arm printing system, ...
+
+The amount of material for a single movement is calculated by slicing software which is included in gcode file. The existing one is extrude by amount, but for freeform printing and wireframe printing, because of the amount of material when print vertically, horizontally, print the first layer, print on top of existing material, print in the air, is different. And it also differ from different materials, especially when using thicker nozzle. In addition, in rotating platform printing, the flow-rate of extrusion with in a single layer may change. So an easier approach to do this is not control the amount of material to be extruded. It is to use two extrusion operations:
+
+start extrude at speed, stop extrude
+
+In order to achieve this, changes on firmware are required. We introduced two customized gcode for these two operations
+
+G998 SPEED - use negative number for back extrude
+G996
+
+The G code for traditional extrusion are remain not changed, so they are still supported
+
+### Controller
+
+Because of the limitation (does not support type casting, complex calculation) of URScript, a controller program is required to be run on a separate computer. It responsible for command editing, robotic arms debugging, path computation, robotic arms and 3D printing system controlling.
+
+C++ is used to build this application, because hardware libraries tend to use C++ (https://blog.robotiq.com/what-is-the-best-programming-language-for-robotics) for real time performance, robotics is very dependent on real time performance.
+
+Qt is chosen because it is a C++ based firmware which enables cross-platform.
+
+#### User interface
+  
 ![](final thesis structure-12.png)
 
-  User interface
-  
-  On the left side, it is the path editor, user can view and edit the commands which can control the whole system. User can open and save a path file. There is also a run/stop button, which is used to start and stop the path file.
+On the left side, it is the path editor, user can view and edit the commands which can control the whole system. User can open and save a path file. There is also a run/stop button, which is used to start and stop the path file.
 
-  At the bottom-left corner, it is a terminal, which shows the execution of the commands and status of the printing system.
-  
-  In the center of the software, it shows the current gesture of the robotic arms, by switching the ur robots into simulation mode, it can simulate the movement of robotic arms which help to find problems before it do a actual print.
-  
-  On the right side, users can control these two arms individually using sliders and buttons, users can also enable the free drive mode so that they can move the robot using their hands.
-  
-  C++ because hardware libraries use these languages (https://blog.robotiq.com/what-is-the-best-programming-language-for-robotics) for real time performance, robotics is very dependent on real time performance
-  
-  Qt is chosen because it is a C++ based firmware which enables cross-platform
+At the bottom-left corner, it is a terminal, which shows the execution of the commands and status of the printing system.
 
-###### Software architecture
+In the center of the software, it shows the current gesture of the robotic arms, by switching the ur robots into simulation mode, it can simulate the movement of robotic arms which help to find problems before it do a actual print.
 
-  * simulation
-    * opengl
-  * command executor
+On the right side, users can control these two arms individually using sliders and buttons, users can also enable the free drive mode so that they can move the robot using their hands.
+
+#### Software Architecture
+
+* simulator
+
+  A simulation system which allows robot’s motions to be simulated prior to executing on the real robot also needs to be designed to ensure safety. It could avoid undesired movements due to the bug in the system destroying print head or hurting human during the experiments.
+  
+  The simulator is made using OpenGL, which is an API for rendering 3D vector graphics. 3D model of the robotic arm (provided by UR robot) is imported to the program and rendered on the screen. In order to animate the gesture of a robotic arm, the 3D model has been divided into 7 components. In order to transform and rotate these 7 components, transformation matrix is required for each component. The method that used to calculate the transformation matrix for each part is forward kinematics.
+  
+  ![](final thesis structure-43.png)
+  
+  The picture above shows the kinematic chain of the UR3 robot represented using  kinematic diagram. The DH approach (...) is used assigns a different axis to each movable joint. [[[The z-axis should lie on the axis of rotation, for a revolute joint, or axis of extension, for a prismatic joint. The x-axis should lie along the "common normal", which is the shortest orthogonal line between the previous z-axis and the current z-axis]]] (https://blog.robotiq.com/how-to-calculate-a-robots-forward-kinematics-in-5-easy-steps) z-axis (blue), x-axis (red) and y-axis (green).
+
+  The DH parameters break down each joint of the robot into four parameters, each taken with reference to the previous joint.
+  
+  * d - the distance between the previous x-axis and the current x-axis, along the common normal
+  * θ - the angle around the z-axis between the previous x-axis and current x-axis.
+  * a (or r) - the length of the common normal
+  * α - the angle around the common normal to between the previous z-axis and current z-axis.
+
+  ![](final thesis structure-44.png)
+
+  (http://blog.robindeits.com/2012/06/10/denavit-hartenberg-for-robotics-part-3-the-d-h-parameters/)
+  
+  Then ...
+
+* command executor
 
   In order to make the system flexible, command executor is designed. Instead of hard code the robotic arm movement command and 3d printing system command in to the controller, these commands are separated into command files. Users can load the command file into the controller and the controller parse the commands and then execute the command in order to control the system.
   
-  JavaScript has been chosen because it is a script language which will be complied during runtime this makes
+  JavaScript has been chosen because it is a script language [[[with a series of commands within a file that is capable of being executed without being compiled]]] (https://www.computerhope.com/jargon/s/script.htm). It is easy to implement loop and conditional structure into the script which makes it powerful
   
-  with a series of commands within a file that is capable of being executed without being compiled (https://www.computerhope.com/jargon/s/script.htm)
+  Because script language is slower than a compiled program (https://www.computerhope.com/jargon/s/script.htm), it can not used directly for controlling the robotic 3d printing system. Because the speed of the system is depend on the slowest component in the system. Event the controller is fast, but the script is slow. It is also slow. 
   
-  easy to write and modified
-  
-  It is easy to implement loop and conditional structure which makes the script powerful
-  
-  Because script is slower than a compiled program (https://www.computerhope.com/jargon/s/script.htm), it can not used directly for controlling the robotic 3d printing system. The speed of the system is depend on the slowest component in the system. Event the controller is fast, but the script is slow. It is also slow. 
-  
-  To solve this problem, make it also flexible and efficient, the script has been precompiled into a series of command that can directly used for controlling the system without any computation
+  To solve this problem, and also keep it's flexibility, the script has been executed and generate a series of command that can directly used for controlling the system without heavy computation.
   
   So the whole system consists of script interpreter used to compile the control file into a series of commands. Then a command executor is used to execute these command by sending them to the robotic arm controller or the 3d printing controller.
   
   By doing so, the script can both be flexible and efficient
 
-  * driver
+* driver
 
-##### 3d printing firmware
+  The driver is used to convert these commands into lower level movements or gcode so that it can be understood by the robotic controller and the 3D printer firmware.
 
-  G code used in robotic 3d printing
-  G1
-  fan
-  temp - thank for auto tune, the pid of temp control pid tune can be done automatically.
+#### Platform Levelling 
 
-  Marlin (http://marlinfw.org/) is a open source 3d printer firmware which allows full control of the printing process. It is easy to be modified so that it can adapt the robotic 3D printing
-  
-  The amount of material for a single movement is calculated by slicing software which is included in gcode file. But for freeform printing and wireframe printing, because of the amount of material when print vertically, horizontally, print the first layer, print on top of existing material, print in the air, is different. And it also differ from different materials, especially when using thicker nozzle. In addition, in rotating platform printing, the flow-rate of extrusion with in a single layer may change. So an easier approach to do this is not control the amount of material to be extruded. It is to use two extrusion operations:
-  
-  operations: start extrude at speed, stop extrude
-  
-  In order to achieve this, changes on firmware are required. We introduced two customized gcode for these two operations
-  
-  G998 SPEED - use negative number for back extrude
-  G996
-  
-  Because of the control machinism of step motor is different, the existing one is extrude by amount
-  
-  The G code for traditional extrusion are remain not changed, so they are still supported
-  
+The software needed to level the platform
 
-  * modified extruder controlling
+similar to 3d printer, it goes through four corners of the platform, and buttons can be used to move the platform so that it is level
 
-###### microstepping
-  
-  Essentially, the goal of this process is to create a motor that runs as smoothly as possible. Due to the nature of step motors, their rotation is not entirely smooth, as the motor is moving “step by step” Of course, these steps are designed to be moved through rather quickly, so there is usually no particularly detrimental effect on performance, but for those who require smoother resolution, the full step stepper motor may not be quite what is needed. (http://www.nmbtc.com/step-motors/engineering/full-half-and-microstepping/)
-  
-  https://hackaday.com/2016/08/29/how-accurate-is-microstepping-really/
-  
+[picture: order of points for levelling]
+
+Also the grids on the platform helps this process, because the print is in the air, the print head need to relocate the open edges so that it can continue to print. This is why the grid is needed which does not need in the conventional 3D printer.
+
+
+
+# Methods and Algorithms
+## Freeform Printing
+* slow movement - slow extrusion
+* small step angle - slow extrusion
+* high speed fan - faster solidified
+* bigger nozzle - stable
+
+Another issue with the freeform printing is that when the print speed is low, the extruder must also reduce the speed to feed less material in a time unit, otherwise, it will be over extrude. The problem with this is that the step motor is n degree per step, when the 
+
+[[[The goal of this process is to create a motor that runs as smoothly as possible. Due to the nature of step motors, their rotation is not entirely smooth, as the motor is moving “step by step” Of course, these steps are designed to be moved through rather quickly, so there is usually no particularly detrimental effect on performance, but for those who require smoother resolution, the full step stepper motor may not be quite what is needed.]]] (http://www.nmbtc.com/step-motors/engineering/full-half-and-microstepping/)
+
+https://hackaday.com/2016/08/29/how-accurate-is-microstepping-really/
+
 ![](final thesis structure-11.png)
-  
+
 
 42BYGHM809 0.9 +=5%
 400 steps/rev
@@ -374,46 +403,46 @@ Because of the limitation (does not support type casting, complex calculation) o
 2 phase
 (https://cdn.sparkfun.com/datasheets/Robotics/42BYGHM809.PDF)
 
-Microstepping is a technique that increases motor resolution by controlling both the direction and amplitude of current flow in each winding. Current is proportioned in the windings according to sine and cosine functions. (http://www.nmbtc.com/step-motors/engineering/full-half-and-microstepping/)
-
-This is where the microstepper controller comes in. The microstepper controller is a driver that sends pulses to the motor in an ideal waveform for fluid rotation. The idea is for the driver to send current in the form of sinewaves. Two sinewaves that are 90 degrees out of phase is the perfect driver for a smooth motor. If two step coils can be made to follow these sinewaves, it results in a perfectly quiet, smooth motor with no detectable “stepping”.
-
-This is because, in such a case, the two waves work together to keep the motor in smooth transition from one pole to the other. When the current increases in one coil, it decreases in the other, resulting in smooth step advancing and continuous torque output at each position. A normal bipolar stepper driver does not have these smooth wave forms. As a result, the motor transitions are not as smooth. In most applications requiring stepper motors, assuming an ideal driver situation. In reality, the wave forms can deviate significantly, resulting in what is called “resonance”, which is a phenomenon that creates problems for mechanical systems. Microstepping reduces resonance issues by controlling the waves so that this type of deviation does not occur.
+[[[Microstepping is a technique that increases motor resolution by controlling both the direction and amplitude of current flow in each winding. (http://www.nmbtc.com/step-motors/engineering/full-half-and-microstepping/) a driver that sends pulses to the motor in an ideal waveform for fluid rotation. The idea is for the driver to send current in the form of sinewaves. Two sinewaves that are 90 degrees out of phase is the perfect driver for a smooth motor. If two step coils can be made to follow these sinewaves, it results in a perfectly quiet, smooth motor with no detectable “stepping”. This is because, in such a case, the two waves work together to keep the motor in smooth transition from one pole to the other. When the current increases in one coil, it decreases in the other, resulting in smooth step advancing and continuous torque output at each position. A normal bipolar stepper driver does not have these smooth wave forms. As a result, the motor transitions are not as smooth.]]]
 
 A microstepper controller subdivides the motor step angle into multiple divisions to improve control over the motor. This allows for more refined motor work that requires greater motor resolution. (http://www.nmbtc.com/step-motors/engineering/full-half-and-microstepping/)
 
-A4982 DMOS Microstepping Driver
+A4982 DMOS Microstepping Driver is used in RAMBo bard
 (www.allegromicro.com/~/media/Files/Datasheets/A4982-Datasheet.ashx)
 
 ![](final thesis structure.png)
 
 By writing HIGH level to both MS1 and MS2 pin, it can set the stepper motor to microstepping mode with 1/16 step resolution. This significant improve the quality of the print
 
-Enabling microstepping does not the fully solve the problem, the temperature is also a important to the printing quality. When printing with a very slow speed (how slow), the filament come through the heat block has all been fully heated. If the temperature is high, it can boil the material and produce some bubble which cause the print not smooth.
-
-195℃
-
-Reducing the temperature also help increase the cooling speed, so the material can solidify quickly which also reduced the sagging problem
-
-[picture to compare high temp and low temp]
-
 [picture to compare microstepping and non-microsteping]
 
-## Freeform Printing
-* slow movement - slow extrusion
-* small step angle - slow extrusion
-* high speed fan - faster solidified
-* bigger nozzle - stable
+Enabling microstepping does not the fully solve the problem, the temperature is also a important to the printing quality. When printing with a very slow speed (how slow), the filament come through the heat block has all been fully heated. If the temperature is high, it can boil the material and produce some bubble which cause the print not smooth. Reducing the temperature also help increase the cooling speed, so the material can solidify quickly which also reduced the sagging problem
+
+[picture to compare high temp and low temp]
 
 print parameters
 space speed 1mm/s
 extrusion speed 200
 
-### Freeform printing with solid core
+### Candle holder
+
+In addition, first layer should be printed very close (n mm? - to be measured) to the platform.
+
 * solid core: maintain the overall shape
 
+At first, freeform printing is experimented directly, 
+
+but the problems are
+not stable, low quality
+
+
+[show they are not connected]
 
 ![](final thesis structure-33.png)
+
+Then solid core is added, it combines freeform and layer-based 3D printing
+
+It 
 
 ![](final thesis structure-21.png)
 
@@ -674,6 +703,8 @@ For the temperature control, because thick nozzle is used, the extrusion will re
 Because of the cooling system is not efficient enough, so when doing freeform printing, the speed is very low, Also the fans occupied some space, so the two wires can not be print too close to each other (min ?mm). In the future research, much effective and compact cooling system can be experimented.
 
 For slinky printing, it is worth to experiment with flat nozzle instead of round nozzle, because 
+
+For slinky and freeform printing the cooling system is not enough, because it needs printed material be solidified before it can print the next part, otherwise, the wire can be sag. The efficiency of the cooling system affects the printing speed. It takes 3 hours to print a slinky with n circles, and takes 12 hours to print the candle holder. If the cooling system can be much efficient, the print speed can be faster
 
 # Conclusion
 
